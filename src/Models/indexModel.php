@@ -5,7 +5,7 @@ class indexModel{
     public function retornarModuloModel($pagina)
     {
         
-       if ($pagina == 'services' || $pagina == 'us' || $pagina == 'contact') {
+       if ($pagina == 'login' || $pagina == 'register') {
            $modules = "Views/modules/{$pagina}.php";
 
            
