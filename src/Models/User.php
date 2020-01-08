@@ -96,12 +96,22 @@ class User{
 
                     if (password_verify($pass, $passHash)) {
 
-                        $auth = new Auth();
-                        $jwt = $auth->createJWT($idUser, $nameUser, $userName);
+                        session_start();
+                    
+                        $_SESSION['id'] = $idUser;
+                        $_SESSION['nameUser'] = $nameUser;
+                        $_SESSION['userName'] = $userName;
+                        $_SESSION['auth'] = true;
+                        $_SESSION['time'] = time();
 
                         $data = array(
                             'code' => 200,
-                            'mensaje' => $jwt
+                            'mensaje' => [
+                                'id' => $idUser,
+                                'name' => $userName,
+                                'username' => $userName,
+                                'auth' => true
+                            ]
                         );
 
                     }else{

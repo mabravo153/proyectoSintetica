@@ -1,5 +1,8 @@
 (function(){
+
+
     
+
     document.addEventListener('DOMContentLoaded',function() {
        
         /*Registro*/
@@ -98,11 +101,10 @@
                     
                     let promesa = new Promise(function(resolve,reject) {
                         resolve(notificacion('correcto', 'Credenciales validas'))
-
-                        localStorage.setItem('key', json.mensaje)
+                        let userInfo = JSON.stringify(json.mensaje)
+                        localStorage.setItem('userInfo', userInfo)
                     });
                         
-
                     promesa.then(
                         result => window.location.href = 'index.php'
                     )
@@ -131,6 +133,7 @@
 
         }
 
+        
 
     });
 })();

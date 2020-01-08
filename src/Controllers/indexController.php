@@ -1,23 +1,25 @@
 <?php
+namespace Controllers;
+
 include 'Models/indexModel.php';
 
-class indexController{
-    
+use Model\indexModel;
 
-    public function retornar(){
-        include 'Views/template.php';
+class indexController{
+
+    public static function retornar(){
+       return 'Views/template.php';
     }
 
-    public function pageName()
+    public static function pageName()
     {
         $name = basename($_SERVER['PHP_SELF']);
-        $page = str_replace(".php", "", $name);
-        return $page;
+        /*$page = str_replace(".php", "", $name);*/
+        return $name;
     }
 
-    public function retornarModuloController()
+    public static function retornarModuloController()
     {
-
         if(isset($_GET['accion'])){
             $accion = $_GET['accion'];
 
@@ -25,9 +27,9 @@ class indexController{
             $accion = 'index';
         }
 
-        $finalModule = indexModel::retornarModuloModel($accion);
+        $modulo = indexModel::retornarModuloModel($accion);
 
-        require $finalModule;
+        return $modulo;
 
     }
 
