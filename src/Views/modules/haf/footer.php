@@ -1,6 +1,6 @@
 
 
-<script src="Views/js/main.js"></script>
+<script type="module" src="Views/js/main.js"></script>
 
 
 </body>

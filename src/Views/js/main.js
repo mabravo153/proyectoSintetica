@@ -1,10 +1,9 @@
+import {enviarDatos, envioLogin, notificacion, close} from '../modules/modulos.js'
 (function(){
-
-
-    
-
+    'use strict'
     document.addEventListener('DOMContentLoaded',function() {
-       
+
+
         /*Registro*/
         let formulario = document.querySelector('#formularioRegistro');
 
@@ -30,7 +29,7 @@
                     form.append('userName', nombreUsuario)
                     form.append('password', contrasena)            
     
-                    enviarDatos(form);
+                    enviarDatos(form)
     
                 }
                 
@@ -40,25 +39,7 @@
             
         }
         
-        async function enviarDatos(form){
-
-            let response = await fetch('Controllers/userController.php',{method: 'POST', body: form})
-
-            if(response.ok){
-                let json = await response.json()
-
-                if (json.code == 202) {
-                    notificacion('correcto', `${json.mensaje}`)
-                }else{
-                    notificacion('error', `Usuario duplicado u otro error: ${json.mensaje}`)
-                }
-                
-            }else{
-                notificacion('error', `Error:${response.status}, ${response.statusText}`)
-            }
-        }
-
-
+    
         /*Login*/ 
 
         let formularioLogin = document.querySelector('#formularioLogin');
@@ -89,49 +70,26 @@
             });
         }
 
-        
 
-        async function envioLogin(data) {
-            let response = await fetch('Controllers/userController.php', {method: 'POST', body: data})
+        /*Salir*/
 
-            if(response.ok){
-                let json = await response.json()
-               
-                if(json.code == 200){
-                    
-                    let promesa = new Promise(function(resolve,reject) {
-                        resolve(notificacion('correcto', 'Credenciales validas'))
-                        let userInfo = JSON.stringify(json.mensaje)
-                        localStorage.setItem('userInfo', userInfo)
-                    });
-                        
-                    promesa.then(
-                        result => window.location.href = 'index.php'
-                    )
-                    
-                }else{
-                    notificacion('error', `${json.mensaje}`)
-                }
-                
-            }else{
-                notificacion('error', `${response.status}: ${response.statusText} `)
-            }
+       if(document.querySelector('#salir')){
+            let salir = document.querySelector('#salir');
 
+            salir.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                let cerrar = new FormData()
+                cerrar.set('accion', 'cerrar')
+
+                close(cerrar)
+
+            });
         }
 
-        function notificacion(type, content) {
-            
-            let anuncio = document.createElement('div');
-            anuncio.classList.add('anuncio')
-            anuncio.classList.add(type)
-            anuncio.innerHTML = `<p> ${content} </p>`
-            document.body.appendChild(anuncio)
 
-            setTimeout(() => {
-                anuncio.remove()
-            }, 3000);
+    
 
-        }
 
         
 

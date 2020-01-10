@@ -11,13 +11,6 @@ class indexController{
        return 'Views/template.php';
     }
 
-    public static function pageName()
-    {
-        $name = basename($_SERVER['PHP_SELF']);
-        /*$page = str_replace(".php", "", $name);*/
-        return $name;
-    }
-
     public static function retornarModuloController()
     {
         if(isset($_GET['accion'])){

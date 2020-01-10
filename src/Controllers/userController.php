@@ -44,12 +44,28 @@ class userController{
 
     }
 
+    public static function close(){
+        
+        session_start();
+
+        session_destroy();
+
+       return [
+           'code' => 200,
+           'mensaje' => 'session close'
+       ];
+
+    }
+
+
 }
 
 if(isset($_POST['accion']) && $_POST['accion'] == 'createUser'){
     echo userController::createUser();
 }else if (isset($_POST['accion']) && $_POST['accion'] == 'login'){
     echo userController::login();
+}else if (isset($_POST['accion']) && $_POST['accion'] == 'cerrar'){
+    echo userController::close();
 }
 
 
