@@ -51,7 +51,7 @@ export async function close(datos) {
 
     if (cerrarF.ok) {
         localStorage.clear()
-        window.location.href = 'index.php'
+        window.location.href = 'index.php?accion=login'
     }
 
 }
