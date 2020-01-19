@@ -3,6 +3,7 @@ include '../Models/User.php';
 
 use Model\User;
 
+
 class userController{
 
     public static function createUser(){
@@ -57,6 +58,16 @@ class userController{
 
     }
 
+    public static function recuperar(){
+        
+    
+        $respuesta = User::listarUsuarios();
+
+        return json_encode($respuesta);
+
+    }
+
+    
 
 }
 
@@ -66,6 +77,8 @@ if(isset($_POST['accion']) && $_POST['accion'] == 'createUser'){
     echo userController::login();
 }else if (isset($_POST['accion']) && $_POST['accion'] == 'cerrar'){
     echo userController::close();
+}else if (isset($_GET['accion']) && $_GET['accion'] =='retornar' ){
+    echo userController::recuperar();
 }
 
 

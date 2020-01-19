@@ -1,8 +1,16 @@
 <div class="contenedor-total">
-    <div class="contenedor-formulario">
+    <div class="barra-superior">
+        <H1 class="logo"><a href="index.php">Logo</a></H1>
+        <div class="contenido-barra">
+            <div class="btn btn-salir">
+                <a href="" id="salir">Salir</a>
+            </div>
+        </div>
+    </div>
 
-        <form action="" id="formularioRegistro">
-        
+
+    <div class="contenedor-registro">
+        <form id="formularioRegistro">
             <div class="campo">
                 <label for="name">Nombre</label>
                 <input type="text" id="name">
@@ -20,7 +28,7 @@
                 <input type="password" id="password">
             </div>
 
-            <input type="submit" value="Enviar" >
+            <input type="submit" value="Guardar" class="btn btn-guardar">
         </form>
 
     </div>

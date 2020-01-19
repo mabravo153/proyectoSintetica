@@ -63,9 +63,9 @@ class User{
             return $response;
             
         }
-    }
+    }// final crear usuario
 
-    public function login(string $username, string $pass){
+    public static function login(string $username, string $pass){
 
         $pdo = Conexion::conectar();
         $idUser   = null;
@@ -93,7 +93,7 @@ class User{
                 $consulta->fetch(PDO::FETCH_ASSOC);
 
                 if (!empty($nameUser)) {
-
+                   
                     if (password_verify($pass, $passHash)) {
 
                         session_start();
@@ -115,9 +115,11 @@ class User{
                         );
 
                     }else{
+                        $intentos+=1;
                         $data = array(
                             'code' => 404,
-                            'mensaje' => 'Contrasena invalida'
+                            'mensaje' => 'Contrasena invalida',
+                            'intentos' => $intentos
                         );
                     }
                 }else{
@@ -145,6 +147,42 @@ class User{
         }     
     }// final login 
 
+    public static function listarUsuarios(){
+        
+        $connect = Conexion::conectar();
+
+        if (is_array($connect)) {
+            return $connect;
+        }else{
+
+            try {
+                $connect->beginTransaction();
+
+                $sql = $connect->prepare( "SELECT id, nombre, apellido, nombreUsuario FROM users" ); 
+
+                $sql->execute();
+
+                $response = $sql->fetchAll(PDO::FETCH_ASSOC); 
+
+                $connect->commit();
+
+            } catch (\Exception $th) {
+
+                $connect->rollBack();
+
+                $response = array(
+                    'code' => 400,
+                    'mensaje' => $th
+                );
+            }
+
+            return $response;
+
+        }
+
+    }//final listar usuario
+
+   
 
 }//final clase user
 

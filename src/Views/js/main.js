@@ -1,4 +1,4 @@
-import {enviarDatos, envioLogin, notificacion, close} from '../modules/modulos.js'
+import {enviarDatos, envioLogin, notificacion, close, funciones} from '../modules/modulos.js'
 (function(){
     'use strict'
     document.addEventListener('DOMContentLoaded',function() {
@@ -55,14 +55,20 @@ import {enviarDatos, envioLogin, notificacion, close} from '../modules/modulos.j
                     notificacion('error', 'Los campos no pueden estar vacios')
                 }else{
     
-                    let login = new FormData();
-                    login.set('accion', 'login')
-                    login.set('username', usuario)
-                    login.set('password', password)
+                    let validate = funciones.validarlogin(usuario)
 
-                    envioLogin(login)
-
-                    formularioLogin.reset()
+                    if (validate) {
+                        let login = new FormData();
+                        login.set('accion', 'login')
+                        login.set('username', usuario)
+                        login.set('password', password)
+    
+                        envioLogin(login)
+    
+                        formularioLogin.reset()
+                    }else{
+                        notificacion('error', 'Contiene caracteres no validos')
+                    }
     
                 }
     
@@ -88,10 +94,67 @@ import {enviarDatos, envioLogin, notificacion, close} from '../modules/modulos.j
         }
 
 
-    
+        /* Usuarios registrados*/
+
+        if(document.querySelector('.area-principal')){
+            funciones.listarUsuarios()
+        }
+
+        /*agregar notas */
+
+        if (document.querySelector('.area-usuario')) {
+            let areaUsuarios = document.querySelector('.area-usuario')
+
+            areaUsuarios.addEventListener('click', function (e) {
+
+                let target = event.target
+
+                if (target.hasAttribute('data-set')) {
+
+                    let dataSet = target.getAttribute('data-set')
+                    funciones.ventanaModal(dataSet)
 
 
-        
+                    let formularioModal = document.querySelector('#formularioModal');
+
+                    formularioModal.addEventListener('click', function (e) {
+                        e.preventDefault()
+
+                        let idUsuarioModal = document.querySelector('#idUsuario').value
+                        let notaUsuario = document.querySelector('#notaUsuario').value
+
+                        if (idUsuarioModal == "" || notaUsuario == "") {
+                            notificacion('error', 'Los campos no pueden estar vacios ')
+                        } else {
+
+                            let validar = funciones.validarNota(idUsuarioModal, notaUsuario)
+
+                            if (validar) {
+                                funciones.manipularmModal(idUsuarioModal, notaUsuario)
+                            } else {
+                                notificacion('error', 'Agregas caracteres no validos')
+                            }
+
+                        }
+
+                    })
+
+                }
+
+                if(target.hasAttribute('data-list')){
+
+                    let valueData = target.getAttribute('data-list')
+
+                    funciones.mostrarNotas(valueData)
+
+                }
+
+            })
+        } //mostrar ventana modal 
+
+
+
+       
 
     });
 })();
