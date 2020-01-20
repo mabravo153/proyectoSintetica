@@ -262,3 +262,8 @@ input[type='text'] {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
+.lista {
+  text-align: center;
+  color: #ffffff;
+  padding: 2rem;
+}

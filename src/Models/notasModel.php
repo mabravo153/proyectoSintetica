@@ -56,8 +56,52 @@ class Notas{
 
     }
 
-    public function listarNotasUser($idUser){
+    public static function listarNotasUser($idUser){
     
+        $pdo = Conexion::conectar(); 
+
+        if (is_array($pdo)) {
+            return $pdo;
+        }else{
+            
+            try {
+                
+                $pdo->beginTransaction();
+
+                $query = $pdo->prepare(" SELECT nota_usuario FROM notas WHERE fk_user= :usuario ");
+                $query->bindParam(':usuario', $idUser); 
+
+                $query->execute();
+
+                $arrayRespuesta = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                if (!empty($arrayRespuesta)) {
+                    $respuesta = array(
+                        'code' => 200,
+                        'mensaje' => $arrayRespuesta
+                    );
+                }else{
+                    $respuesta = array(
+                        'code' => 400,
+                        'mensaje' => 'el usuario no tiene registro de notas'
+                    );
+                }
+
+                $pdo->commit();
+                
+            } catch (\Exception $th) {
+                $pdo->rollBack();
+
+                $respuesta = array(
+                    'code' => 400, 
+                    'mensaje' => $th->getMessage()
+                );
+            }
+
+            return $respuesta;
+
+        }
+
     }
 
 }

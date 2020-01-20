@@ -153,11 +153,8 @@ export class funciones {
             });
     
         }else{
-            console.log(consulta.status);
-        }
-    
-                                                
-        
+            notificacion('error',`${consulta.status} ${consulta.statusText}`)
+        }  
     }
 
     static async manipularmModal(id, nota){
@@ -197,12 +194,38 @@ export class funciones {
 
     }
 
-   ventanaLista() {
-
+    static ventanaLista(datos){
         let contenedorModal = document.createElement('div')
         let contenidoModal = document.createElement('div')
+        let header = document.createElement('h3')
+        contenidoModal.classList.add('contenido-modal')
+        contenidoModal.classList.add('lista')
+        contenedorModal.classList.add('contenedor-mod')
+        header.innerHTML = `Nota de Miguel`
+        contenidoModal.prepend(header)
+        
+        datos.forEach((element, key) => {
+
+            let contenidoNotas = document.createElement('div')
+            contenidoNotas.classList.add('opciones-panel')
+            contenidoNotas.innerHTML = `<p>Nota ${key + 1}</p> <p> ${element.nota_usuario} </p>`
+            contenidoModal.append(contenidoNotas)
+
+        })
+        contenedorModal.append(contenidoModal)
+        document.body.append(contenedorModal)
+    }
+
+
+    static ventanaVacia(data){
+        let contenedorModal = document.createElement('div')
+        let contenidoModal = document.createElement('div')
+        let encabezado = document.createElement('h2')
         contenidoModal.classList.add('contenido-modal')
         contenedorModal.classList.add('contenedor-mod')
+        encabezado.innerHTML = `${data}`
+
+        contenidoModal.append(encabezado)
 
         contenedorModal.append(contenidoModal)
         document.body.append(contenedorModal)
@@ -213,10 +236,15 @@ export class funciones {
         let consulta = await fetch(`Controllers/notasController.php?accion=notas&datos=${data}`)
 
         if (consulta.ok) {
-            let respuesta = await consulta.text()
+            let respuesta = await consulta.json()
 
-            console.log(respuesta);
-            
+            if (respuesta.code == 200) {
+                this.ventanaLista(respuesta.mensaje)
+            } else {
+                this.ventanaVacia(respuesta.mensaje)
+            }
+        } else {
+            notificacion('error', `${consulta.status} ${consulta.statusText} `)
         }
 
 

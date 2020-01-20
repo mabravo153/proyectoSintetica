@@ -23,9 +23,9 @@ class notasController{
         
         $idUsuario = filter_var($_GET['datos'], FILTER_SANITIZE_NUMBER_INT);
 
-        
+        $respuesta = Notas::listarNotasUser($idUsuario);
 
-        return json_encode($_GET);
+        return json_encode($respuesta);
         
     }
 
