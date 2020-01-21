@@ -89,8 +89,9 @@ export class funciones {
         
         contenedorModal.append(contenidoModal)
         document.body.append(contenedorModal)
-    }
 
+        this.removerModal()
+    }
 
     static validarlogin(user) {
         let auth;
@@ -170,8 +171,7 @@ export class funciones {
             let respuesta = await envioNotas.json()
 
             if(respuesta.code == 202){
-                
-                
+                                
                let promise = new Promise(function (resolve, reject) {
                    resolve(notificacion('correcto', `${respuesta.mensaje}`))
                })
@@ -188,10 +188,6 @@ export class funciones {
         }else{
             notificacion('error', `Ocurrio un error ${envioNotas.status}  ${envioNotas.statusText}` )
         }
-
-
-
-
     }
 
     static ventanaLista(datos){
@@ -201,7 +197,7 @@ export class funciones {
         contenidoModal.classList.add('contenido-modal')
         contenidoModal.classList.add('lista')
         contenedorModal.classList.add('contenedor-mod')
-        header.innerHTML = `Nota de Miguel`
+        header.innerHTML = `Nota de ${datos[0]['nombre']}`
         contenidoModal.prepend(header)
         
         datos.forEach((element, key) => {
@@ -215,7 +211,6 @@ export class funciones {
         contenedorModal.append(contenidoModal)
         document.body.append(contenedorModal)
     }
-
 
     static ventanaVacia(data){
         let contenedorModal = document.createElement('div')
@@ -239,15 +234,38 @@ export class funciones {
             let respuesta = await consulta.json()
 
             if (respuesta.code == 200) {
+
                 this.ventanaLista(respuesta.mensaje)
+
+                this.removerModal()
+
             } else {
                 this.ventanaVacia(respuesta.mensaje)
+
+                this.removerModal()
+
             }
         } else {
             notificacion('error', `${consulta.status} ${consulta.statusText} `)
         }
+    }
 
+    static removerModal(){
+        let contenedorModal = document.querySelector('.contenedor-mod')
 
+        contenedorModal.addEventListener('click', function() {
+            
+            let elementTarget = event.target
+
+            let hasElement = elementTarget.getAttribute('class')
+
+            if (hasElement == 'contenedor-mod') {
+                contenedorModal.remove()
+            }
+
+            
+
+        })
     }
 
     

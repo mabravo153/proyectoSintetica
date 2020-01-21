@@ -68,7 +68,8 @@ class Notas{
                 
                 $pdo->beginTransaction();
 
-                $query = $pdo->prepare(" SELECT nota_usuario FROM notas WHERE fk_user= :usuario ");
+                $query = $pdo->prepare(" SELECT nota_usuario, nombre, apellido FROM users INNER JOIN notas 
+                                         ON users.id = notas.fk_user WHERE notas.fk_user = :usuario ");
                 $query->bindParam(':usuario', $idUser); 
 
                 $query->execute();

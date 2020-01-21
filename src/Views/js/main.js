@@ -105,7 +105,7 @@ import {enviarDatos, envioLogin, notificacion, close, funciones} from '../module
         if (document.querySelector('.area-usuario')) {
             let areaUsuarios = document.querySelector('.area-usuario')
 
-            areaUsuarios.addEventListener('click', function (e) {
+            areaUsuarios.addEventListener('click', function () {
 
                 let target = event.target
 
